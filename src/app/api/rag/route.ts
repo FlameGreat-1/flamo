@@ -5,6 +5,10 @@ interface RagDataItem {
   id: string;
   title: string;
   content: string;
+  email?: string;
+  github?: string;
+  linkedin?: string;
+  portfolio?: string;
 }
 
 interface GeminiStreamChunk {
@@ -14,12 +18,12 @@ interface GeminiStreamChunk {
         text?: string;
       }>;
     };
+    finishReason?: string;
   }>;
 }
 
 interface PromptConfig {
   maxTokens?: number;
-  temperature?: number;
   responseStyle?: 'concise' | 'detailed' | 'adaptive';
 }
 
@@ -49,9 +53,9 @@ export async function POST(req: Request) {
       responseStyle: 'adaptive'
     });
 
-    // Gemini 2.5 Flash model with streaming
-    const modelName = "gemini-2.5-flash";
-    const apiUrl = `https://generativelanguage.googleapis.com/v1/models/${modelName}:streamGenerateContent?alt=sse&key=${apiKey}`;
+    // Gemini 2.0 Flash model with streaming
+    const modelName = "gemini-2.0-flash-exp";
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:streamGenerateContent?alt=sse&key=${apiKey}`;
 
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -68,6 +72,10 @@ export async function POST(req: Request) {
             ],
           },
         ],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 1024,
+        },
       }),
     });
 
@@ -79,7 +87,8 @@ export async function POST(req: Request) {
       });
     }
 
-    // Create a ReadableStream to forward the SSE data
+    // Create a ReadableStream to forward the SSE data with proper accumulation
+    const encoder = new TextEncoder();
     const stream = new ReadableStream({
       async start(controller) {
         const reader = response.body?.getReader();
@@ -90,6 +99,8 @@ export async function POST(req: Request) {
           return;
         }
 
+        let buffer = "";
+
         try {
           while (true) {
             const { done, value } = await reader.read();
@@ -99,24 +110,34 @@ export async function POST(req: Request) {
               break;
             }
 
-            const chunk = decoder.decode(value, { stream: true });
-            const lines = chunk.split("\n");
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n");
+            
+            // Keep the last incomplete line in the buffer
+            buffer = lines.pop() || "";
 
             for (const line of lines) {
               if (line.startsWith("data: ")) {
-                const jsonStr = line.slice(6);
+                const jsonStr = line.slice(6).trim();
 
-                if (jsonStr.trim() === "") continue;
+                if (jsonStr === "" || jsonStr === "[DONE]") continue;
 
                 try {
                   const data = JSON.parse(jsonStr) as GeminiStreamChunk;
                   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
                   if (text) {
-                    controller.enqueue(new TextEncoder().encode(text));
+                    // Send each chunk immediately
+                    controller.enqueue(encoder.encode(text));
+                  }
+
+                  // Check if generation is complete
+                  if (data.candidates?.[0]?.finishReason) {
+                    controller.close();
+                    return;
                   }
                 } catch (parseError) {
-                  console.error("Error parsing chunk:", parseError);
+                  console.error("Error parsing chunk:", parseError, "Line:", jsonStr);
                 }
               }
             }
@@ -131,14 +152,14 @@ export async function POST(req: Request) {
     return new Response(stream, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
-        "Transfer-Encoding": "chunked",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
       },
     });
   } catch (err) {
     console.error("RAG API error:", err);
     return NextResponse.json({
-      answer:
-        "Sorry, I'm having trouble responding right now. Please try again!",
+      answer: "Sorry, I'm having trouble responding right now. Please try again!",
     });
   }
 }
@@ -161,16 +182,16 @@ function findRelevantContext(query: string): string[] {
         '**Contact Details:**'
       ];
       
-      if ('email' in contactData && contactData.email) {
+      if (contactData.email) {
         contactInfo.push(`- **Email:** ${contactData.email}`);
       }
-      if ('github' in contactData && contactData.github) {
+      if (contactData.github) {
         contactInfo.push(`- **GitHub:** ${contactData.github}`);
       }
-      if ('linkedin' in contactData && contactData.linkedin) {
+      if (contactData.linkedin) {
         contactInfo.push(`- **LinkedIn:** ${contactData.linkedin}`);
       }
-      if ('portfolio' in contactData && contactData.portfolio) {
+      if (contactData.portfolio) {
         contactInfo.push(`- **Portfolio:** ${contactData.portfolio}`);
       }
       
@@ -200,23 +221,13 @@ function findRelevantContext(query: string): string[] {
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
     .map((s) => {
-      // Build base content
       let content = `${s.item.title}: ${s.item.content}`;
       
-      // Include email/social fields if they exist
       const extras = [];
-      if ('email' in s.item && s.item.email) {
-        extras.push(`Email: ${s.item.email}`);
-      }
-      if ('github' in s.item && s.item.github) {
-        extras.push(`GitHub: ${s.item.github}`);
-      }
-      if ('linkedin' in s.item && s.item.linkedin) {
-        extras.push(`LinkedIn: ${s.item.linkedin}`);
-      }
-      if ('portfolio' in s.item && s.item.portfolio) {
-        extras.push(`Portfolio: ${s.item.portfolio}`);
-      }
+      if (s.item.email) extras.push(`Email: ${s.item.email}`);
+      if (s.item.github) extras.push(`GitHub: ${s.item.github}`);
+      if (s.item.linkedin) extras.push(`LinkedIn: ${s.item.linkedin}`);
+      if (s.item.portfolio) extras.push(`Portfolio: ${s.item.portfolio}`);
       
       if (extras.length > 0) {
         content += '\n\n' + extras.join('\n');
