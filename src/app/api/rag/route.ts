@@ -145,8 +145,41 @@ export async function POST(req: Request) {
 
 function findRelevantContext(query: string): string[] {
   const queryLower = query.toLowerCase();
-  const keywords = queryLower.split(" ");
+  
+  // Enhanced keyword extraction with synonyms for contact queries
+  const contactKeywords = ['contact', 'email', 'reach', 'github', 'linkedin', 'social', 'connect', 'portfolio', 'touch', 'message'];
+  const isContactQuery = contactKeywords.some(keyword => queryLower.includes(keyword));
+  
+  // If it's a contact query, prioritize contact data
+  if (isContactQuery) {
+    const typedRagData = ragData as RagDataItem[];
+    const contactData = typedRagData.find(item => item.id === 'contact');
+    if (contactData) {
+      const contactInfo = [
+        `${contactData.title}: ${contactData.content}`,
+        '',
+        '**Contact Details:**'
+      ];
+      
+      if ('email' in contactData && contactData.email) {
+        contactInfo.push(`- **Email:** ${contactData.email}`);
+      }
+      if ('github' in contactData && contactData.github) {
+        contactInfo.push(`- **GitHub:** ${contactData.github}`);
+      }
+      if ('linkedin' in contactData && contactData.linkedin) {
+        contactInfo.push(`- **LinkedIn:** ${contactData.linkedin}`);
+      }
+      if ('portfolio' in contactData && contactData.portfolio) {
+        contactInfo.push(`- **Portfolio:** ${contactData.portfolio}`);
+      }
+      
+      return [contactInfo.join('\n')];
+    }
+  }
 
+  // Original keyword matching for other queries
+  const keywords = queryLower.split(" ");
   const typedRagData = ragData as RagDataItem[];
 
   const scored = typedRagData.map((item) => {
@@ -166,7 +199,31 @@ function findRelevantContext(query: string): string[] {
     .filter((s) => s.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
-    .map((s) => `${s.item.title}: ${s.item.content}`);
+    .map((s) => {
+      // Build base content
+      let content = `${s.item.title}: ${s.item.content}`;
+      
+      // Include email/social fields if they exist
+      const extras = [];
+      if ('email' in s.item && s.item.email) {
+        extras.push(`Email: ${s.item.email}`);
+      }
+      if ('github' in s.item && s.item.github) {
+        extras.push(`GitHub: ${s.item.github}`);
+      }
+      if ('linkedin' in s.item && s.item.linkedin) {
+        extras.push(`LinkedIn: ${s.item.linkedin}`);
+      }
+      if ('portfolio' in s.item && s.item.portfolio) {
+        extras.push(`Portfolio: ${s.item.portfolio}`);
+      }
+      
+      if (extras.length > 0) {
+        content += '\n\n' + extras.join('\n');
+      }
+      
+      return content;
+    });
 }
 
 function buildPrompt(
