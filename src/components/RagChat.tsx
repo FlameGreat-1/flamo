@@ -11,28 +11,28 @@ export default function RagChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when messages update
   useEffect(() => {
-    scrollRef.current?.scrollTo({
-      top: scrollRef.current.scrollHeight,
-      behavior: "smooth",
-    });
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
   }, [messages]);
 
   async function sendMessage() {
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return;
 
     // Add user message
-    setMessages((prev) => [...prev, { sender: "user", text: input }]);
-
-    const userQuery = input;
+    const userQuery = input.trim();
+    setMessages((prev) => [...prev, { sender: "user", text: userQuery }]);
     setInput("");
     setLoading(true);
+    setIsStreaming(true);
 
-    // Adds an empty bot message that updates as streaming happens
+    // Add empty bot message that will be updated during streaming
     setMessages((prev) => [...prev, { sender: "bot", text: "" }]);
 
     try {
@@ -45,7 +45,7 @@ export default function RagChat() {
       });
 
       if (!res.ok) {
-        throw new Error("Failed to fetch");
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
 
       // Check if response is streaming or JSON
@@ -65,7 +65,10 @@ export default function RagChat() {
         while (true) {
           const { done, value } = await reader.read();
 
-          if (done) break;
+          if (done) {
+            setIsStreaming(false);
+            break;
+          }
 
           const chunk = decoder.decode(value, { stream: true });
           accumulatedText += chunk;
@@ -73,35 +76,45 @@ export default function RagChat() {
           // Update the last message (bot message) with accumulated text
           setMessages((prev) => {
             const newMessages = [...prev];
-            newMessages[newMessages.length - 1] = {
-              sender: "bot",
-              text: accumulatedText,
-            };
+            if (newMessages.length > 0) {
+              newMessages[newMessages.length - 1] = {
+                sender: "bot",
+                text: accumulatedText,
+              };
+            }
             return newMessages;
           });
         }
-      } else {
-        // Handle JSON response (fallback for errors)
+      } else if (contentType?.includes("application/json")) {
+        // Handle JSON response (fallback for errors or non-streaming)
         const data = await res.json();
         setMessages((prev) => {
           const newMessages = [...prev];
-          newMessages[newMessages.length - 1] = {
-            sender: "bot",
-            text: data.answer || "No response.",
-          };
+          if (newMessages.length > 0) {
+            newMessages[newMessages.length - 1] = {
+              sender: "bot",
+              text: data.answer || "No response received.",
+            };
+          }
           return newMessages;
         });
+        setIsStreaming(false);
+      } else {
+        throw new Error("Unexpected content type");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error in sendMessage:", err);
       setMessages((prev) => {
         const newMessages = [...prev];
-        newMessages[newMessages.length - 1] = {
-          sender: "bot",
-          text: "Sorry, something went wrong.",
-        };
+        if (newMessages.length > 0) {
+          newMessages[newMessages.length - 1] = {
+            sender: "bot",
+            text: "Sorry, I encountered an error. Please try again.",
+          };
+        }
         return newMessages;
       });
+      setIsStreaming(false);
     } finally {
       setLoading(false);
     }
@@ -116,20 +129,29 @@ export default function RagChat() {
       >
         {messages.length === 0 && (
           <p className="text-gray-400 text-sm text-center mt-10">
-            Ask me anything about Ifeoluwa 👩🏽‍💻✨
+            Ask me anything about Emmanuel 👨🏽‍💻✨
           </p>
         )}
 
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+            className={`max-w-[80%] px-3 py-2 rounded-lg text-sm whitespace-pre-wrap ${
               msg.sender === "user"
                 ? "bg-my-primary/20 ml-auto border border-my-primary/40"
                 : "bg-white/10 border border-white/20"
             }`}
           >
-            {msg.text || (loading && i === messages.length - 1 ? "●" : "")}
+            {msg.text || (
+              // Show typing indicator for empty bot message while streaming
+              (isStreaming && i === messages.length - 1) && (
+                <span className="inline-flex gap-1">
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></span>
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></span>
+                </span>
+              )
+            )}
           </div>
         ))}
       </div>
@@ -139,21 +161,24 @@ export default function RagChat() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && !loading && sendMessage()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !loading && input.trim()) {
+              sendMessage();
+            }
+          }}
           disabled={loading}
-          className="flex-1 p-2 text-sm bg-white/10 border border-white/20 rounded-lg outline-none disabled:opacity-50"
+          className="flex-1 p-2 text-sm bg-white/10 border border-white/20 rounded-lg outline-none focus:border-my-primary/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           placeholder="Ask a question..."
         />
 
         <button
           onClick={sendMessage}
-          disabled={loading}
-          className="px-4 py-2 bg-my-primary text-black font-semibold rounded-lg hover:opacity-90 transition disabled:opacity-50"
+          disabled={loading || !input.trim()}
+          className="px-4 py-2 bg-my-primary text-black font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Send
+          {loading ? "..." : "Send"}
         </button>
       </div>
     </div>
   );
 }
-
