@@ -142,7 +142,7 @@ const experiencePage = () => {
           </ScrollReveal>
 
           <p className="text-my-primary font-medium mt-1">
-            <a href="https://cosmicforge.health" target="_blank">
+            <a href="https://cosmicforge-frontend.vercel.app" target="_blank">
               CosmicForge Healthnet Limited
             </a>
           </p>
@@ -187,7 +187,7 @@ const experiencePage = () => {
           </ScrollReveal>
 
           <p className="text-my-primary font-medium mt-1">
-            <a href="https://lunexa.com" target="_blank">
+            <a href="https://buildhive.vercel.app" target="_blank">
               Lunexa
             </a>
           </p>
@@ -277,7 +277,7 @@ const experiencePage = () => {
           </ScrollReveal>
 
           <p className="text-my-primary font-medium mt-1">
-            <a href="https://raspaas.com" target="_blank">
+            <a href="https://raspaas.up.railway.app" target="_blank">
               Raspaas
             </a>
           </p>

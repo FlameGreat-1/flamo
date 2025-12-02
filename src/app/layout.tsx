@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Emmanuel U. Iziogo | Full-Stack Engineer",
     description:
-      "Showcasing projects in FastAPI, Django, Express.js, TypeScript, React, Next.js, and full-stack development.",
+      "Showcasing projects in Python, FastAPI, Django, Express.js, TypeScript, React, Next.js, and full-stack development.",
     url: "https://softverse.vercel.app",
     siteName: "Emmanuel U. Iziogo Portfolio",
     images: ["/images/Portfolio.png"],

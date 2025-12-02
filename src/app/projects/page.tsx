@@ -14,16 +14,16 @@ const ProjectsPage = () => {
 
   const achievements = [
     {
-      src: "/images/upskill.jpg",
-      caption: "One of the winners of Upskill with Cardtonic 3.0",
+      src: "/images/Loading_1.gif",
+      caption: "Leader of the year award",
     },
     {
-      src: "/images/cil-certificate.jpg",
-      caption: "Internship Completion Certification from CIL",
+      src: "/images/Loading_1.gif",
+      caption: "B.ENG (chemical engineering) from Federal University of Technology Owerri",
     },
     {
-      src: "/images/to-come.jpg",
-      caption: "Full-Stack Engineering Certification from Altschool Africa",
+      src: "/images/Loading_1.gif",
+      caption: "Full-Stack Engineering Certification from Coursera",
     },
   ];
 
@@ -105,25 +105,25 @@ const ProjectsPage = () => {
                     title="Portfolio Website"
                     subtitle="A personal portfolio website to showcase my projects and skills."
                     thumbnail="/images/Portfolio.png"
-                    stack="Next.js · TypeScript · Tailwind "
+                    stack="Next.js · TypeScript · Tailwind CSS "
                     liveUrl="https://softverse.vercel.app/"
                     githubUrl="https://github.com/FlameGreat-1/Softverse"
                   />
                   <ProjectCard
-                    title="Interneefy"
-                    subtitle="An internship management system I built for my SIWES project-- designed to streamline the internship process for organizations."
+                    title="exoper"
+                    subtitle="AI Security Guardrails. One Gateway. Every Model. Every AI request passes through EXOPER's zero-trust gateway. Identity verification, policy enforcement, threat detection, and immutable logging across all models, all environments. On-premises or cloud. No vendor lock-in. Exoper is built for trust, security, governance and compliance..."
                     thumbnail="/images/exoper.png"
-                    stack="Next.js · React.js · TypeScript · Tailwind CSS · Node.js · PostgreSQL · Prisma "
-                    liveUrl="https://interneefy-frontend.vercel.app/"
-                    githubUrl="https://github.com/FlameGreat-1/interneefy-frontend"
+                    stack="· Go · Rust · Next.js · React.js · TypeScript · Tailwind CSS · PostgreSQL · Prisma · OPA · OpenTelemetry · Docker · Kubernetes · CI/CD "
+                    liveUrl="https://exoper.com"
+                    githubUrl="https://github.com/FlameGreat-1/exoper"
                   />
                   <ProjectCard
-                    title="Tic Tac Toe"
-                    subtitle="This is a simple implementation of the classic Tic-Tac-Toe game. A project from TOP(The Odin Project)."
+                    title="Raspaas"
+                    subtitle="Multitenant HR management System with integrated biometric (REALAND) and face recognition (ZKTeco) devices. Payroll automation, and compliance tracking and RBAC authorization."
                     thumbnail="/images/raspaas.png"
-                    stack="HTML · CSS · JavaScript "
-                    liveUrl="https://nuga25.github.io/Tic-Tac-Toe/"
-                    githubUrl="https://github.com/FlameGreat-1/Tic-Tac-Toe"
+                    stack="Python · Django · JavaScript · HTML · CSS, · PostgreSQL · Docker · Celery "
+                    liveUrl="https://raspaas.up.railway.app"
+                    githubUrl="https://github.com/FlameGreat-1/Raspaas"
                   />
                 </div>
 

@@ -2,93 +2,109 @@
   {
     "id": "about",
     "title": "About Me",
-    "content": "Emmanuel U. Iziogo is a final-year Computer Science student who enjoys building responsive, user-friendly applications using Next.js, React, TypeScript, and Tailwind CSS. She is fascinated by how technology solves real-world problems and enjoys exploring new tools that push her creativity further. Outside of coding, she loves scrolling through social media or watching Kdramas. She is just that girl!"
+    "content": "Emmanuel U. Iziogo is a Full-Stack Engineer with 5+ years of experience architecting and deploying scalable applications, RESTful services, and AI-powered solutions. Proven expertise in end-to-end software development, cloud infrastructure, and system security across SaaS platforms and enterprise systems. Specialized in integrating LLMs, automating workflows, and delivering production-ready systems with high availability and real-time intelligence. Chemical Engineering background provides unique analytical approach to complex software challenges and data-driven solutions."
   },
   {
     "id": "skills",
     "title": "Skills",
-    "content": "React.js, Next.js, JavaScript, TypeScript, Tailwind CSS, HTML, CSS, Git, GitHub, Figma, AWS basics including EC2, Amplify, Cognito, VPC, S3, PostgreSQL, Terraform."
+    "content": "Python, FastAPI, Django, Express.js, React.js, Next.js, JavaScript, TypeScript, Tailwind CSS, HTML, CSS, Git, GitHub, Figma, Amplify, Cognito, Google Cloud Vision (GCP), S3, PostgreSQL, Docker, Kubernetes"
   },
   {
-    "id": "education",
-    "title": "Education",
-    "content": "Studying BSc Computer Science at Lagos State University with modules Software Engineering, Web and Internet Technology, Basic Java, basic C++, Algorithms and Data Structures, Systems Design and Security, Data Driven Computing, Databases, Computer Architecture and Networking. Expected graduation September 2026. Completed Full-Stack Engineering program at AltSchool Africa with modules including HTML, CSS, JavaScript, TypeScript, React, Next.js, and accessibility."
+    "id": "devops",
+    "title": "Devops",
+    "content": "AWS, Oracle Cloud infra, Runpod, Onrender, Vercel"
   },
   {
-    "id": "story_origin",
-    "title": "My Tech Journey",
-    "content": "I started my tech journey fresh out of highschool out of curiosity and a desire to understand how the apps and websites I used every day were built. This led me to apply to study Computer Science in the University. During my university years I worked on improving my tech skills and enrolled in the Full-Stack Engineering program at AltSchool Africa, where I enhanced my frontend skills. As I built more projects, I fell in love with creating interfaces that feel intuitive, responsive, and visually appealing. During my third year of uni, in my second semester, I went for my SIWES internship which lasted six months. During this period, I explored other tech fields and expanded my interests into UI/UX design, cloud engineering, automation, AWS, Terraform, AI/ML, and backend concepts. Today, I enjoy combining strong frontend skills with backend knowledge to build scalable, real-world applications."
+    "id": "tools",
+    "title": "Tools",
+    "content": "Stack overflow,Kaggle, Jupyter Notebook, Hugging Face, Git, GitHub, Figma, vs code, Shadcn, lightswind, webflow, Notion, figma, postman"
+  },
+  {
+  "id": "education",
+  "title": "Education",
+  "content": "Obtained B.ENG in Chemical Engineering. Studied core engineering principles with strong emphasis on systems analysis, process optimization, mathematical modeling, and data-driven problem solving. Gained experience working with structured methodologies, technical documentation, and multidisciplinary collaboration. Developed a rigorous approach to logical reasoning, process automation, and efficiency improvement, which I now apply to software architecture and complex system engineering."
+  },
+  {
+  "id": "story_origin",
+  "title": "My Tech Journey",
+  "content": "My journey into technology began with a curiosity to understand complex systems and how real-world solutions are built. This drive led me to pursue a B.ENG in Chemical Engineering, where I developed strong foundations in systems analysis, process optimization, and data-driven problem solving. While at university, I transitioned into software development, completing a Full-Stack Engineering program at ALX Africa, Coursera, 3MM program, refining my skills in frontend and backend technologies, modern frameworks, and software architecture. Through internships and independent projects, I gained hands-on experience in cloud infrastructure, automation, AI/ML, and UI/UX design. Today, I leverage this multidisciplinary background to architect and build scalable, efficient, and user-centric applications, combining engineering rigor with practical software solutions."
+  },
+  {
+  "id": "forex_experience",
+  "title": "Forex Trading Expertise",
+  "content": "Professional Forex trader with 5 years of experience in global financial markets. Possess deep expertise in technical analysis, macroeconomic trends, liquidity management, risk assessment, and market dynamics. Skilled in developing data-driven trading strategies, identifying high-probability setups, and executing trades with precision. Adept at combining analytical rigor with practical decision-making to optimize performance in fast-paced, high-stakes trading environments."
   },
   {
     "id": "project_portfolio",
     "title": "Portfolio Website",
     "content": "A fully responsive personal portfolio website designed to showcase my projects, experience, and skills. It features smooth animations, reusable components, a clean UI, and optimized routing. Built with modern frontend tools and deployed on Vercel. Serves as the central hub for my online presence."
   },
+  [
   {
-    "id": "project_interneefy",
-    "title": "Interneefy – Internship Management System",
-    "content": "Interneefy is a full-stack internship management system built as my SIWES project. It streamlines the internship lifecycle for organizations, offering dashboards for admins, supervisors, and interns. Users can register, assign and track tasks, submit reports, and monitor performance. Designed with scalability, clarity, and real-world usability in mind. Built with Next.js, React.js, TypeScript, Tailwind CSS, Node.js, PostgreSQL, and Prisma ORM."
+    "id": "exoper",
+    "title": "Exoper",
+    "content": "CloudFlare for AI-Exoper is a comprehensive zero-trust AI security gateway that ensures all AI requests across models and environments are secure, auditable, and compliant. It centralizes identity verification, policy enforcement, threat detection, and immutable logging, allowing organizations to deploy AI with enterprise-grade safety. Designed for both on-premises and cloud deployments, Exoper eliminates vendor lock-in while providing scalability, reliability, and high availability. The platform emphasizes clarity, performance, and real-world usability, enabling teams to confidently manage AI operations at scale. Built with Go, Rust, Next.js, TypeScript, Tailwind CSS, PostgreSQL, Docker, Kubernetes, and CI/CD pipelines."
   },
   {
-    "id": "project_tictactoe",
-    "title": "Tic Tac Toe Game",
-    "content": "A simple and interactive implementation of the classic Tic-Tac-Toe game. Built as part of The Odin Project curriculum, focusing on DOM manipulation, game logic, modular JavaScript patterns, and responsive layout. Built with HTML, CSS, and JavaScript."
+    "id": "raspaas",
+    "title": "Raspaas",
+    "content": "Raspaas is a multitenant HR management system that integrates biometric (REALAND) and facial recognition (ZKTeco) devices for workforce authentication. The platform automates payroll, enforces compliance policies, and provides role-based access control to streamline employee management across multiple organizations. Designed with usability and scalability in mind, Raspaas offers dashboards for HR admins, supervisors, and employees to track performance, attendance, and payroll seamlessly. Built to support complex workflows and secure data management, it ensures efficiency and accuracy in HR operations. Built with Python, Django, JavaScript, HTML, CSS, PostgreSQL, Docker, and Celery."
   },
   {
-    "id": "project_todo",
-    "title": "Advanced Todo Application",
-    "content": "A feature-rich todo application with CRUD operations, pagination, dynamic routing, and database persistence. Built with React.js, Next.js, TypeScript, Tailwind CSS, Daisy UI, and Supabase."
+    "id": "buildhive",
+    "title": "BuildHive",
+    "content": "BuildHive is a freelance marketplace platform that connects clients with skilled professionals in construction and technical industries. It enables project posting, freelancer discovery, real-time communication, and secure collaboration, offering a centralized hub for project management. The platform is designed for scalability and usability, providing intuitive interfaces for both clients and freelancers. Emphasizing efficiency and reliability, BuildHive supports seamless onboarding, project tracking, and feedback workflows. Built with TypeScript, React.js, Next.js, Tailwind CSS, SQL, and Oracle Cloud."
   },
   {
-    "id": "project_etchasketch",
-    "title": "Etch A Sketch",
-    "content": "A web-based drawing playground inspired by the classic Etch A Sketch toy. Built as part of The Odin Project curriculum. Users can draw on a grid, choose different sizes, and reset the canvas. Built with HTML, CSS, and JavaScript."
+    "id": "sidesone",
+    "title": "Sidesone",
+    "content": "Sidesone is an agency-focused freelance portfolio platform that showcases skilled professionals and connects them with clients for diverse projects and services. The platform offers portfolio management, project matching, and workflow tracking, ensuring smooth collaboration and transparent project delivery. Designed for clarity and responsive performance, Sidesone provides visually appealing interfaces for clients to browse talent and for freelancers to present work effectively. Built with TypeScript, Next.js, Tailwind CSS, MongoDB, and AWS to support scalability and reliable data handling."
   },
   {
-    "id": "project_space_tourism",
-    "title": "Space Tourism Website",
-    "content": "A responsive multipage space-themed website built from a Frontend Mentor challenge. Includes navigation between destinations, crew members, and technology pages. Built with TypeScript, React.js, Next.js, and Tailwind CSS."
+    "id": "cosmicforge",
+    "title": "CosmicForge HealthNet",
+    "content": "CosmicForge HealthNet is an AI-powered telemedicine platform that connects patients with healthcare professionals for virtual consultations and medical advice. It provides secure communication channels, scheduling, and patient data management, enabling seamless access to healthcare services remotely. Designed with scalability, user experience, and data privacy in mind, the platform supports real-world healthcare workflows and enhances patient engagement. Built with Python FastAPI, TypeScript, Express.js, Node.js, Tailwind CSS, and MongoDB, it ensures robust performance and maintainability."
   },
   {
-    "id": "project_loan_dashboard",
-    "title": "Loan Dashboard",
-    "content": "A static loan dashboard application that allows users to visualize loan metrics and repayment data. Includes charts, responsive layout, and clean design. Built with React.js, Tailwind CSS, JavaScript, and Chart.js."
+    "id": "honestiq",
+    "title": "Honestiq",
+    "content": "Honestiq is an agency software portfolio platform that showcases modern web and application development projects. It emphasizes responsive design, intuitive interfaces, and maintainable architecture, demonstrating practical solutions across diverse client needs. Built to provide clarity, performance, and real-world usability, Honestiq highlights agency capabilities while ensuring a seamless user experience. Built with TypeScript, Node.js, React.js, and Tailwind CSS."
   },
   {
-    "id": "project_positivus",
-    "title": "Positivus Landing Page",
-    "content": "A modern landing page for Positivus, showcasing their services and offerings. Designed with a clean layout, smooth flow, and responsive design. Built with HTML, CSS, and JavaScript."
+    "id": "basse",
+    "title": "Basse",
+    "content": "Basse is a Web3 mentorship platform connecting mentors and mentees in the blockchain space. The platform facilitates decentralized learning, mentorship workflows, smart contract interactions, and IPFS-based content storage, creating a secure and engaging ecosystem for blockchain education. Designed for scalability and usability, Basse allows users to connect, track mentorship progress, and manage learning activities seamlessly. Built with Next.js, Tailwind CSS, Framer Motion, TypeScript, Solidity, Hardhat, Ethers.js, and IPFS."
   },
   {
-    "id": "project_ecommerce",
-    "title": "E-commerce Product Page",
-    "content": "A responsive e-commerce product detail page created from a Frontend Mentor challenge. Includes product gallery, add-to-cart functionality, and clean responsive UI. Built with React.js, Tailwind CSS, and TypeScript."
+    "id": "nswcleaning",
+    "title": "NSW CleaningCompany",
+    "content": "NSW CleaningCompany is a responsive service website providing residential and commercial cleaning solutions. The platform features service listings, booking forms, and interactive user interfaces for a seamless customer experience. Designed with mobile-first principles and clarity in mind, it ensures accessibility and smooth navigation for clients. Built with Python, Django, React.js, Tailwind CSS, and PostgreSQL, it provides reliable performance and maintainable architecture."
   },
   {
-    "id": "career",
-    "title": "Career Goals",
-    "content": "Aiming to become a strong software engineer with fullstack capabilities, with interests in AI/ML, accessible user interfaces, and building scalable applications."
+  "id": "career",
+  "title": "Career Goals",
+  "content": "Aspiring to become a successful software entrepreneur, building innovative, scalable, and impactful technology solutions. I aim to leverage my expertise in full-stack development, AI/ML, and system design to create products that solve real-world problems and drive value. Concurrently, I am committed to excelling as a top 1% Forex trader, combining deep market knowledge, technical analysis, and disciplined risk management to achieve consistent, high-performance results in global financial markets."
   },
   {
-    "id": "experience_siwes",
-    "title": "Engineering Intern – Cecure Intelligence Limited",
-    "content": "During my SIWES internship at Cecure Intelligence Limited in the Engineering Department, I rotated through Full-Stack Engineering, design engineering, cloud engineering, and machine learning/AI. Mentored by senior engineers, I gained hands-on experience building secure, scalable, and user-friendly digital solutions. Strengthened skills in React, TypeScript, Tailwind CSS, Figma, Terraform, and AWS services. Contributed to documentation and learnt best engineering practices."
+  "id": "experience_siwes",
+  "title": "Industrial Trainee – SwinTech",
+  "content": "Completed 300 and 400 level industrial training at SwinTech, a leading computer training institute, where I gained hands-on experience in Full-Stack Development, UI/UX design, cloud engineering, and AI/ML applications. Mentored by senior professionals, I worked on building secure, scalable, and user-friendly digital solutions while adhering to best engineering practices. Strengthened technical skills in React, TypeScript, Tailwind CSS, Figma, Terraform, and AWS services. Actively contributed to technical documentation, process optimization, and collaborative problem-solving, laying a strong foundation for software engineering excellence."
   },
   {
-    "id": "values",
-    "title": "Personality & Work Values",
-    "content": "Ifeoluwa values clean design, reliability, attention to detail, and consistent improvement. She enjoys taking feedback, learning quickly, and asking the right questions. Her work style is organized, curious, and focused. She loves building things that are both aesthetically pleasing and technically sound."
+  "id": "values",
+  "title": "Personality & Work Values",
+  "content": "Emmanuel is guided by a strong commitment to clean design, robust security, reliability, and meticulous attention to detail. He approaches work with structured curiosity, consistently seeking to learn, improve, and apply best practices. Open to constructive feedback and thoughtful questioning, he thrives in collaborative environments. He is passionate about building solutions that are both aesthetically refined and technically sound, solving real-world problems and delivering meaningful impact."
   },
   {
-    "id": "fun_facts",
-    "title": "Fun Facts",
-    "content": "She loves Kdramas, enjoys scrolling through social media in her free time, and likes exploring new tech tools. She is one of the 20 winners of upskill 3.0(2025) with Cardtonic."
+  "id": "fun_facts",
+  "title": "Fun Facts",
+  "content": "Outside of professional pursuits, Emmanuel enjoys reading, adventurous activities, action movies, and dramas. He is an enthusiastic explorer of new technologies and trends. Recognized for his leadership and talent, he was among the top 20 winners of Nigeria's 3MTT Talent Hunt (2024) and awarded Best Leader of the Year (2023) at Dominion City FUTO."
   },
   {
     "id": "contact",
     "title": "Contact & Socials",
-    "content": "You can reach me through my portfolio or social platforms. I am open to collaborations, voluntary and paid opportunities, and frontend-focused roles.",
-    "email": "osinuaifeoluwa1@gmail.com",
+    "content": "You can reach me through my portfolio or social platforms. I am open to collaborations, opportunities, Full-Stack Engineer and AI Engineer-focused roles.",
+    "email": "softverse.com@gmail.com",
     "github": "https://github.com/FlameGreat-1",
     "linkedin": "https://www.linkedin.com/in/flamegreat",
     "portfolio": "https://softverse.vercel.app/"

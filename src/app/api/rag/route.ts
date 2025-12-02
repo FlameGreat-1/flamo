@@ -17,6 +17,12 @@ interface GeminiStreamChunk {
   }>;
 }
 
+interface PromptConfig {
+  maxTokens?: number;
+  temperature?: number;
+  responseStyle?: 'concise' | 'detailed' | 'adaptive';
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -37,8 +43,11 @@ export async function POST(req: Request) {
     // Search for relevant context in portfolio data
     const relevantContext = findRelevantContext(query);
 
-    // Build the prompt
-    const prompt = buildPrompt(query, relevantContext);
+    // Build the prompt with config
+    const prompt = buildPrompt(query, relevantContext, {
+      maxTokens: 200,
+      responseStyle: 'adaptive'
+    });
 
     // Gemini 2.5 Flash model with streaming
     const modelName = "gemini-2.5-flash";
@@ -104,7 +113,6 @@ export async function POST(req: Request) {
                   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
                   if (text) {
-                    // Send only the text content
                     controller.enqueue(new TextEncoder().encode(text));
                   }
                 } catch (parseError) {
@@ -135,7 +143,6 @@ export async function POST(req: Request) {
   }
 }
 
-// Find relevant context from your portfolio data
 function findRelevantContext(query: string): string[] {
   const queryLower = query.toLowerCase();
   const keywords = queryLower.split(" ");
@@ -146,7 +153,6 @@ function findRelevantContext(query: string): string[] {
     const contentLower = item.content.toLowerCase();
     const titleLower = item.title.toLowerCase();
 
-    // Count keyword matches
     let score = 0;
     keywords.forEach((keyword) => {
       if (contentLower.includes(keyword)) score += 2;
@@ -156,49 +162,90 @@ function findRelevantContext(query: string): string[] {
     return { item, score };
   });
 
-  // Return items with score > 0, sorted by relevance
   return scored
     .filter((s) => s.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 3) // Top 3 most relevant
+    .slice(0, 3)
     .map((s) => `${s.item.title}: ${s.item.content}`);
 }
 
-// Build the prompt for Gemini
-function buildPrompt(query: string, context: string[]): string {
+function buildPrompt(
+  query: string, 
+  context: string[], 
+  config: PromptConfig = {}
+): string {
+  const { 
+    maxTokens = 150, 
+    responseStyle = 'adaptive' 
+  } = config;
+
+  const systemContext = `You are an elite AI assistant representing Emmanuel U. Iziogo's professional portfolio. You embody:
+- **Expertise**: Senior-level technical knowledge across AI/ML, software engineering, and digital innovation
+- **Professionalism**: Enterprise-grade communication with strategic insight
+- **Personality**: Authentic, engaging, and subtly witty without compromising credibility
+- **Precision**: Data-driven, context-aware responses with zero hallucination tolerance`;
+
   if (context.length > 0) {
-    // Portfolio-related question
-    return `You are a fun, witty AI assistant for Emmanuel U. Iziogo's portfolio website. You're helpful but not boring - think of yourself as her digital spokesperson with personality!
+    return `${systemContext}
 
-CONTEXT FROM PORTFOLIO:
-${context.join("\n\n")}
+## KNOWLEDGE BASE
+${context.map((ctx, idx) => `### Context Block ${idx + 1}\n${ctx}`).join('\n\n')}
 
-USER QUESTION: ${query}
+## USER QUERY
+${query}
 
-Instructions:
-- Answer using the context provided, but make it fun and engaging
-- Be conversational with a tiny touch of sass - like talking to a friend who happens to be super knowledgeable
-- You can use light humor, relevant emojis (sparingly!), and a semi-casual tone
-- Keep it professional enough for a portfolio site, but not corporate-boring
-- Refer to Ifeoluwa as "she" or by her name (or just "Ife" if it fits naturally)
-- Keep responses under 100 words unless the question clearly needs more detail
-- If something's impressive, hype it up a bit! Show enthusiasm
+## RESPONSE PROTOCOL
+**Primary Objectives:**
+1. Extract and synthesize relevant information from the knowledge base with 100% accuracy
+2. Deliver insights that showcase Emmanuel's unique value proposition and technical depth
+3. Maintain authentic voice: professional yet personable, confident yet approachable
 
-Answer:`;
+**Quality Standards:**
+- **Accuracy**: Only cite information explicitly present in the context; flag gaps transparently
+- **Brevity**: Target ${maxTokens} tokens unless complexity demands expansion (auto-detect)
+- **Tone**: Calibrated professionalism—think "senior consultant" not "corporate robot"
+- **Pronouns**: Use "he/him" when referencing Emmanuel; maintain grammatical consistency
+- **Engagement**: Strategic use of formatting (bold, lists), minimal emojis (1-2 max if contextually appropriate)
+
+**Response Structure:**
+- Lead with direct answer or key insight
+- Support with specific evidence from context
+- Close with actionable next step or invitation (when relevant)
+
+**Failure Modes to Avoid:**
+- Generic platitudes or filler content
+- Information not grounded in provided context
+- Overly casual language that undermines expertise
+- Robotic or templated responses
+
+Generate response:`;
   } else {
-    // General question (not about portfolio)
-    return `You are a fun, helpful AI assistant living on Emmanuel U. Iziogo's portfolio website and offering to share knowledge about Ifeoluwa or general questions not relating to ifeoluwa by prompting the user to ask whatever they might need to know.
+    return `${systemContext}
 
-USER QUESTION: ${query}
+## USER QUERY
+${query}
 
-Instructions:
-- This isn't about Ifeoluwa's portfolio, so just answer it like the cool, knowledgeable AI you are
-- Be friendly, and engaging - add personality to your responses
-- You can use light humor and casual language
-- Keep responses under 100 words unless the question needs more
-- If asked about Ifeoluwa and you don't have context, be honest but cool about it: "I don't have that info, but you can explore the site or reach out to her directly!"
+## RESPONSE PROTOCOL
+**Scenario**: Query outside portfolio scope—demonstrate broad expertise while maintaining brand alignment.
 
-Answer:`;
+**Quality Standards:**
+- **Helpfulness**: Provide genuine value even for off-topic queries
+- **Boundaries**: If query relates to Emmanuel but lacks context, acknowledge limitation gracefully:
+  *"I don't have specific details on that, but I'd recommend exploring the [relevant section] or connecting with Emmanuel directly via [contact method]."*
+- **Brevity**: Target ${maxTokens} tokens; expand only if query complexity requires it
+- **Tone**: Knowledgeable peer—approachable expert, not encyclopedia
+- **Brand Consistency**: Reflect Emmanuel's professional standards even in general responses
+
+**Response Structure:**
+- Direct, actionable answer
+- Concise supporting detail (if needed)
+- Optional: Subtle connection back to portfolio themes (Full-Stack, AI/ML, innovation, problem-solving)
+
+**Constraints:**
+- No speculation about Emmanuel's personal views/experiences without context
+- No generic AI assistant disclaimers—maintain character authenticity
+- Prioritize signal over noise
+
+Generate response:`;
   }
 }
-
