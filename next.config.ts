@@ -19,7 +19,6 @@ const nextConfig: NextConfig = {
 
   // Production Optimizations
   reactStrictMode: true,
-  swcMinify: true,
   compress: true,
   poweredByHeader: false,
 
