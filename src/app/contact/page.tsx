@@ -181,7 +181,7 @@ const ContactPage = () => {
 
           <div className="flex-1 flex flex-col items-center justify-between text-center text-[14px]">
             <Image
-              src="/animations/cartoo.png"
+              src="/animations/cartoon.png"
               alt="cartoon"
               width={200}
               height={200}
